@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	helmRenderer "github.com/k8s-manifest-kit/renderer-helm/pkg"
+	componentApi "github.com/opendatahub-io/opendatahub-operator/v2/api/components/v1alpha1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
 	"github.com/opendatahub-io/opendatahub-operator/v2/api/common"
@@ -41,7 +42,8 @@ var allowedChartResourceKinds = map[string]bool{
 // specific module manifests. Keep exceptions scoped to the module that owns
 // the resource instead of weakening the allowlist for every module.
 var allowedResourceKindsByModule = map[string]map[string]bool{
-	"ray": {"SecurityContextConstraints": true},
+	componentApi.RayComponentName:            {"SecurityContextConstraints": true},
+	componentApi.MLflowOperatorComponentName: {"ValidatingAdmissionPolicy": true},
 }
 
 func TestModuleChartCompliance(t *testing.T) {
